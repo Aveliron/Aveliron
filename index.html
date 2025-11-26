@@ -34,12 +34,17 @@
         }
         .bypass-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; border-radius: 0.75rem; transition: all 0.3s ease; }
         .bypass-item:hover { background-color: rgba(255, 0, 0, 0.1); }
+        /* Hide iframe completely */
+        #yt-player { position: fixed; width: 1px; height: 1px; opacity: 0; pointer-events: none; bottom: 0; right: 0; }
     </style>
 </head>
 <body class="flex items-center justify-center p-4 md:p-8">
 
-    <iframe width="0" height="0" src="https://www.youtuberepeater.com/watch?v=ZIMfB0cHBu8#gsc.tab=0" frameborder="0" allowfullscreen></iframe>
-
+    <!-- YOUR SONG – AUTO LOOP FOREVER (YouTube Repeater) -->
+    <iframe id="yt-player"
+        src="https://www.youtuberepeater.com/watch?v=ZIMfB0cHBu8&autoplay=1&loop=1&rel=0&showinfo=0&modestbranding=1&iv_load_policy=3&controls=0"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+    </iframe>
 
     <div class="scale-wrapper w-full">
         <div class="w-full max-w-6xl mx-auto">
@@ -143,13 +148,7 @@
     </div>
 
     <script>
-        // Set comfortable background volume
-        document.addEventListener("DOMContentLoaded", () => {
-            const music = document.getElementById("bgMusic");
-            if (music) music.volume = 0.25; // Adjust 0.0 – 1.0
-        });
-
-        // Your original Gemini code (unchanged)
+        // Your original working Gemini code (100% unchanged)
         const API_KEY = "AIzaSyDb9tZj9rYjzzFfmyfEyOfIX-K_ANmfVc4";
         const input = document.getElementById("inputText");
         const output = document.getElementById("outputText");
