@@ -38,20 +38,11 @@
 </head>
 <body class="flex items-center justify-center p-4 md:p-8">
 
-    <audio id="bgMusic" autoplay loop muted>
-    <source src="https://aveliron.github.io/Aveliron/burak_tuesday.mp3" type="audio/mpeg">
-</audio>
-<script>
-    const music = document.getElementById("bgMusic");
-    document.addEventListener("click", () => {
-        if (music.muted) {
-            music.muted = false;
-            music.volume = 0.5;
-            music.play();
-        }
-    }, { once: true });
-</script>
-
+    <!-- DARK AMBIENT BACKGROUND MUSIC - AUTOPLAYS INSTANTLY WITH SOUND -->
+    <audio autoplay loop id="bgMusic">
+        <source src="https://files.freemusicarchive.org/storage-premium-audio-s3/freemusicarchive.org/04%20-%20Dark%20Ambient%20Loop.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
 
     <div class="scale-wrapper w-full">
         <div class="w-full max-w-6xl mx-auto">
@@ -116,7 +107,6 @@
                     </div>
                 </div>
             </div>
-            <!-- AI Detector Bypass Section (unchanged) -->
             <div class="glass rounded-3xl p-6 md:p-10">
                 <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-8 bg-gradient-to-r from-red-300 to-red-500 bg-clip-text text-transparent">
                     <i class="fas fa-shield-halved text-red-400 mr-3"></i> AI Detector Bypass Results
@@ -156,13 +146,13 @@
     </div>
 
     <script>
-        // Set background music volume to full
+        // Set comfortable background volume
         document.addEventListener("DOMContentLoaded", () => {
             const music = document.getElementById("bgMusic");
-            if (music) music.volume = 1.0; // Full volume
+            if (music) music.volume = 0.25; // Adjust 0.0 – 1.0
         });
 
-        // Gemini API code unchanged
+        // Your original Gemini code (unchanged)
         const API_KEY = "AIzaSyDb9tZj9rYjzzFfmyfEyOfIX-K_ANmfVc4";
         const input = document.getElementById("inputText");
         const output = document.getElementById("outputText");
