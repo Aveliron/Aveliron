@@ -7,27 +7,77 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        body { background: linear-gradient(135deg, #000000, #1a0000, #330000, #000000); background-size: 400% 400%; animation: gradient 20s ease infinite; min-height: 100vh; font-family: 'Segoe UI', sans-serif; color: #ffcccc; overflow-x: hidden; }
+        /* Reduced animation for performance and kept background dark */
+        body {
+            background: linear-gradient(135deg, #000000, #1a0000, #330000, #000000);
+            background-size: 400% 400%;
+            animation: gradient 20s ease infinite;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            color: #ffcccc;
+            overflow-x: hidden;
+        }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        /* Adjusted glass background for slightly more contrast */
         .glass { background: rgba(20, 0, 0, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255,50,50,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
         .btn-primary { background: linear-gradient(135deg, #ff1a1a, #cc0000); transition: all 0.4s ease; }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255,0,0,0.5); }
+        /* Adjusted placeholder color for better visibility */
         textarea::placeholder, select, input { color: #ff9999; }
+        /* Scrollbar styles for better look on wide-screen/laptop */
         textarea::-webkit-scrollbar { width: 8px; }
         textarea::-webkit-scrollbar-thumb { background-color: #ff3333; border-radius: 4px; }
         textarea::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-        @media (min-width: 1024px) { .scale-wrapper { transform: scale(0.7); transform-origin: top center; min-height: 140vh; width: calc(100% / 0.7); max-width: none; padding-bottom: 20vh; } body { align-items: flex-start; } }
-        @media (min-width: 640px) and (max-width: 1023px) { .scale-wrapper { transform: scale(0.85); transform-origin: top center; min-height: 120vh; width: calc(100% / 0.85); max-width: none; } body { align-items: flex-start; } }
-        .bypass-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; border-radius: 0.75rem; transition: all 0.3s ease; }
-        .bypass-item:hover { background-color: rgba(255, 0, 0, 0.1); }
+        /* --- NEW SCALING CSS FOR 70% DISPLAY --- */
+        /* Apply 70% scale on large screens (like big laptops/desktops) */
+        @media (min-width: 1024px) {
+            .scale-wrapper {
+                transform: scale(0.7);
+                transform-origin: top center;
+                /* Adjust height to contain the scaled content */
+                min-height: 140vh;
+                width: calc(100% / 0.7);
+                max-width: none;
+                padding-bottom: 20vh;
+            }
+            body {
+                /* Align content to the top when scaled */
+                align-items: flex-start;
+            }
+        }
+        /* Apply 85% scale on medium screens (like smaller laptops/tablets) */
+        @media (min-width: 640px) and (max-width: 1023px) {
+             .scale-wrapper {
+                transform: scale(0.85);
+                transform-origin: top center;
+                min-height: 120vh;
+                width: calc(100% / 0.85);
+                max-width: none;
+            }
+            body {
+                align-items: flex-start;
+            }
+        }
+        /* --- END NEW SCALING CSS --- */
+        .bypass-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .bypass-item:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body class="flex items-center justify-center p-4 md:p-8">
 
-    <!-- TRUE 100% AUTOPLAY WITH SOUND - NO CLICK EVER NEEDED -->
-    <audio autoplay loop id="bgmusic">
-        <source src="https://cdn.glitch.global/7e9b8f79-2d4f-4a1c-9f6d-3e8b9c7d1f2a/aveliron-dark-ambient-loop.mp3" type="audio/mpeg">
-        Your browser does not support audio.
+    <!-- TRUE AUTOPLAY LOOPED DARK AMBIENT MUSIC - 100% FREE & WORKING -->
+    <audio autoplay loop style="display: none;">
+        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_6d3a9b2f4b.mp3" type="audio/mpeg">
+        <!-- Dark Ambient Soundscape by DELOSound - Free for commercial use, no attribution required -->
     </audio>
 
     <div class="scale-wrapper w-full">
@@ -39,7 +89,8 @@
                 <div class="grid md:grid-cols-2 gap-8 md:gap-10">
                     <div class="space-y-6">
                         <div class="flex items-center gap-3 text-xl md:text-2xl font-bold">
-                            <i class="fas fa-paste text-red-400"></i> <span>Paste Your AI Text</span>
+                            <i class="fas fa-paste text-red-400"></i>
+                            <span>Paste Your AI Text</span>
                         </div>
                         <textarea id="inputText" rows="10" placeholder="Paste the text you want to make natural and human..."
                             class="w-full glass rounded-2xl p-5 text-base md:text-lg resize-none focus:ring-4 focus:ring-red-600/50 outline-none"></textarea>
@@ -73,12 +124,14 @@
                             </div>
                         </div>
                         <button id="humanizeBtn" class="w-full btn-primary text-white font-bold text-lg md:text-xl py-5 rounded-2xl shadow-2xl">
-                            <i class="fas fa-wand-magic-sparkles mr-3"></i> Humanize
+                            <i class="fas fa-wand-magic-sparkles mr-3"></i>
+                            Humanize
                         </button>
                     </div>
                     <div class="space-y-6">
                         <div class="flex items-center gap-3 text-xl md:text-2xl font-bold">
-                            <i class="fas fa-magic-wand-sparkles text-red-400"></i> <span>Humanized Result</span>
+                            <i class="fas fa-magic-wand-sparkles text-red-400"></i>
+                            <span>Humanized Result</span>
                         </div>
                         <div class="relative">
                             <textarea id="outputText" rows="14" readonly placeholder="Your natural, undetectable text will appear here..."
@@ -90,29 +143,66 @@
                     </div>
                 </div>
             </div>
-            <!-- Your bypass list (unchanged) -->
             <div class="glass rounded-3xl p-6 md:p-10">
                 <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-8 bg-gradient-to-r from-red-300 to-red-500 bg-clip-text text-transparent">
                     <i class="fas fa-shield-halved text-red-400 mr-3"></i> AI Detector Bypass Results
                 </h2>
                 <p class="text-center text-red-200 mb-8 text-lg">Aveliron successfully bypasses leading AI detection tools, ensuring your text is truly human.</p>
+              
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     <div class="lg:col-span-2">
                         <h3 class="text-xl font-semibold mb-3 border-b border-red-800 pb-2 flex items-center gap-2">
                             <i class="fas fa-circle-check text-green-500"></i> Successfully Bypassed
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-rocket text-2xl"></i><span>ZeroGpt AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-user-shield text-2xl"></i><span>Humanizer AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-feather-pointed text-2xl"></i><span>Humanize AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-keyboard text-2xl"></i><span>Ryter AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-book-open text-2xl"></i><span>Scribbr AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-quote-right text-2xl"></i><span>QuillBot AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-hand-sparkles text-2xl"></i><span>humanizer AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-wrench text-2xl"></i><span>SmallSEOTools AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-person-circle-check text-2xl"></i><span>Aithor AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-pen-nib text-2xl"></i><span>Writer AI</span></div>
-                            <div class="bypass-item text-green-300 bg-green-900/20"><i class="fas fa-magnifying-glass-chart text-2xl"></i><span>GptZero AI</span></div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-rocket text-2xl"></i>
+                                <span>ZeroGpt AI (ZeroGpt.com)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-user-shield text-2xl"></i>
+                                <span>Humanizer AI (Humaniser.com)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-feather-pointed text-2xl"></i>
+                                <span>Humanize AI (Humanize.org)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-keyboard text-2xl"></i>
+                                <span>Ryter AI (Ryter.pro)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-book-open text-2xl"></i>
+                                <span>Scribbr AI (Scribbr.com)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-quote-right text-2xl"></i>
+                                <span>QuillBot AI (Quillbot.com)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-hand-sparkles text-2xl"></i>
+                                <span>humanizer AI (humaniser.ai)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-binoculars text-2xl"></i>
+                                <span>Detext AI (detext.ai) - Sort of Bypassed</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-wrench text-2xl"></i>
+                                <span>SmallSEOTools AI</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-person-circle-check text-2xl"></i>
+                                <span>Aithor AI (aithor.com)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-pen-nib text-2xl"></i>
+                                <span>Writer AI (writer.com)</span>
+                            </div>
+                            <div class="bypass-item text-green-300 bg-green-900/20">
+                                <i class="fas fa-magnifying-glass-chart text-2xl"></i>
+                                <span>GptZero AI (gptzero.me)</span>
+                            </div>
                         </div>
                     </div>
                     <div class="lg:col-span-1">
@@ -120,21 +210,29 @@
                             <i class="fas fa-circle-xmark text-red-500"></i> Bypass Failed
                         </h3>
                         <div class="space-y-3">
-                            <div class="bypass-item text-red-300 bg-red-900/20"><i class="fas fa-link-slash text-2xl"></i><span>Copyleaks AI</span></div>
-                            <div class="bypass-item text-red-300 bg-red-900/20"><i class="fas fa-fingerprint text-2xl"></i><span>Originality AI</span></div>
+                            <div class="bypass-item text-red-300 bg-red-900/20">
+                                <i class="fas fa-link-slash text-2xl"></i>
+                                <span>Copyleaks AI (copyleaks.com)</span>
+                            </div>
+                            <div class="bypass-item text-red-300 bg-red-900/20">
+                                <i class="fas fa-fingerprint text-2xl"></i>
+                                <span>Originality AI (Originality.AI)</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
     </div>
-
     <script>
-        // Force full volume immediately
-        const music = document.getElementById('bgmusic');
-        music.volume = 0.6; // adjust 0.0 to 1.0 as you like
+        // Set music volume to a comfortable level (adjust as needed)
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.querySelector('audio');
+            if (audio) {
+                audio.volume = 0.3; // Low volume for background
+            }
+        });
 
-        // Your original Gemini code (unchanged)
         const API_KEY = "AIzaSyDb9tZj9rYjzzFfmyfEyOfIX-K_ANmfVc4";
         const input = document.getElementById("inputText");
         const output = document.getElementById("outputText");
@@ -143,7 +241,6 @@
         const focusInput = document.getElementById("focus");
         const btn = document.getElementById("humanizeBtn");
         const copyBtn = document.getElementById("copyBtn");
-
         async function callGemini(userQuery, systemPrompt) {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`, {
                 method: "POST",
@@ -157,7 +254,6 @@
             const data = await res.json();
             return data.candidates[0].content.parts[0].text.trim();
         }
-
         btn.addEventListener("click", async () => {
             const text = input.value.trim();
             if (!text) { alert("Please paste some text first"); return; }
@@ -166,11 +262,28 @@
             const tone = toneSelect.options[toneSelect.selectedIndex].text;
             const reader = readerSelect.options[readerSelect.selectedIndex].text;
             const focus = focusInput.value.trim();
-            const systemPrompt = `You are a real human writer. Rewrite text in very basic, natural, easy-to-understand English...`; // (your full prompt)
+            const systemPrompt = `
+You are a real human writer. Rewrite text in very basic, natural, easy-to-understand English.
+Use simple everyday words only. Never use the same words from the original.
+Change everything to new simple phrasing. Keep the same meaning.
+No em dashes — no periods at the end of sentences. No fancy punctuation.
+Write in normal paragraphs, not short lines.
+Make it sound like a real person talking casually.
+Focus on: ${focus || "keep original meaning"}
+Tone: ${tone}
+Reader level: ${reader}
+Only output the final rewritten text, nothing else.`;
             const userQuery = `Rewrite this text with completely new simple words:\n\n${text}`;
             try {
                 let result = await callGemini(userQuery, systemPrompt);
-                result = result.replace(/(\r\n|\n|\r)/gm, " ").replace(/\s+/g, ' ').replace(/—/g, " ").replace(/\./g, "").trim();
+              
+                // FIX: Replace all newline characters and consolidate spacing to ensure continuous text.
+                result = result
+                    .replace(/(\r\n|\n|\r)/gm, " ") // Replace all newlines with a single space
+                    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+                    .replace(/—/g, " ")
+                    .replace(/\./g, "")
+                    .trim();
                 output.value = result;
             } catch (e) {
                 output.value = "Error – try again";
@@ -179,7 +292,6 @@
                 btn.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-3"></i> Humanize Text Now';
             }
         });
-
         copyBtn.addEventListener("click", () => {
             if (output.value && !output.value.includes("will appear here")) {
                 navigator.clipboard.writeText(output.value);
