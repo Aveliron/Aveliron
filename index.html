@@ -41,7 +41,7 @@
                 padding-bottom: 20vh;
             }
             body {
-                /* Align content to the top when scaled */
+                /* Align content to top when scaled */
                 align-items: flex-start;
             }
         }
@@ -70,15 +70,25 @@
         .bypass-item:hover {
             background-color: rgba(255, 0, 0, 0.1);
         }
+
+        /* Hidden background music player */
+        #yt-music {
+            position: fixed;
+            top: 0; left: 0;
+            width: 1px; height: 1px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center p-4 md:p-8">
 
-    <!-- TRUE AUTOPLAY LOOPED DARK AMBIENT MUSIC - 100% FREE & WORKING -->
-    <audio autoplay loop style="display: none;">
-        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_6d3a9b2f4b.mp3" type="audio/mpeg">
-        <!-- Dark Ambient Soundscape by DELOSound - Free for commercial use, no attribution required -->
-    </audio>
+    <!-- LOOPED BACKGROUND MUSIC (hidden, autoplay, seamless loop, no ads via nocookie domain) -->
+    <iframe id="yt-music"
+        src="https://www.youtube-nocookie.com/embed/ZIMfB0cHBu8?autoplay=1&loop=1&playlist=ZIMfB0cHBu8&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&mute=0&enablejsapi=1&origin=https://www.youtube.com"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+    </iframe>
 
     <div class="scale-wrapper w-full">
         <div class="w-full max-w-6xl mx-auto">
@@ -148,7 +158,7 @@
                     <i class="fas fa-shield-halved text-red-400 mr-3"></i> AI Detector Bypass Results
                 </h2>
                 <p class="text-center text-red-200 mb-8 text-lg">Aveliron successfully bypasses leading AI detection tools, ensuring your text is truly human.</p>
-              
+               
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     <div class="lg:col-span-2">
                         <h3 class="text-xl font-semibold mb-3 border-b border-red-800 pb-2 flex items-center gap-2">
@@ -225,14 +235,6 @@
             </div>
     </div>
     <script>
-        // Set music volume to a comfortable level (adjust as needed)
-        document.addEventListener('DOMContentLoaded', function() {
-            const audio = document.querySelector('audio');
-            if (audio) {
-                audio.volume = 0.3; // Low volume for background
-            }
-        });
-
         const API_KEY = "AIzaSyDb9tZj9rYjzzFfmyfEyOfIX-K_ANmfVc4";
         const input = document.getElementById("inputText");
         const output = document.getElementById("outputText");
@@ -246,59 +248,4 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
-                })
-            });
-            if (!res.ok) throw new Error("API error");
-            const data = await res.json();
-            return data.candidates[0].content.parts[0].text.trim();
-        }
-        btn.addEventListener("click", async () => {
-            const text = input.value.trim();
-            if (!text) { alert("Please paste some text first"); return; }
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i> Humanizing...';
-            const tone = toneSelect.options[toneSelect.selectedIndex].text;
-            const reader = readerSelect.options[readerSelect.selectedIndex].text;
-            const focus = focusInput.value.trim();
-            const systemPrompt = `
-You are a real human writer. Rewrite text in very basic, natural, easy-to-understand English.
-Use simple everyday words only. Never use the same words from the original.
-Change everything to new simple phrasing. Keep the same meaning.
-No em dashes — no periods at the end of sentences. No fancy punctuation.
-Write in normal paragraphs, not short lines.
-Make it sound like a real person talking casually.
-Focus on: ${focus || "keep original meaning"}
-Tone: ${tone}
-Reader level: ${reader}
-Only output the final rewritten text, nothing else.`;
-            const userQuery = `Rewrite this text with completely new simple words:\n\n${text}`;
-            try {
-                let result = await callGemini(userQuery, systemPrompt);
-              
-                // FIX: Replace all newline characters and consolidate spacing to ensure continuous text.
-                result = result
-                    .replace(/(\r\n|\n|\r)/gm, " ") // Replace all newlines with a single space
-                    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
-                    .replace(/—/g, " ")
-                    .replace(/\./g, "")
-                    .trim();
-                output.value = result;
-            } catch (e) {
-                output.value = "Error – try again";
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-3"></i> Humanize Text Now';
-            }
-        });
-        copyBtn.addEventListener("click", () => {
-            if (output.value && !output.value.includes("will appear here")) {
-                navigator.clipboard.writeText(output.value);
-                copyBtn.innerHTML = '<i class="fas fa-check text-green-400 text-lg"></i>';
-                setTimeout(() => copyBtn.innerHTML = '<i class="fas fa-copy text-lg"></i>', 2000);
-            }
-        });
-    </script>
-</body>
-</html>
+                    contents: [{ parts: [{ text:
